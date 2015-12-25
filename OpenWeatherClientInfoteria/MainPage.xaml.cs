@@ -4,6 +4,9 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.Devices.Geolocation;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -17,17 +20,45 @@ namespace OpenWeatherClientInfoteria
         IWeatherProvider weatherProvider;
 
         ObservableCollection<WeatherListViewItem> displayData;
+        double lat;
+        double lng;
+
+        public void GPSTest()
+        {
+            Geolocator geo = new Geolocator();
+
+            if (geo.LocationStatus == PositionStatus.Disabled || geo.LocationStatus == PositionStatus.NotAvailable)
+                throw new Exception("Can't get GPS position");
+
+            Geoposition pos = geo.GetGeopositionAsync().AsTask().Result;
+
+            this.lat = pos.Coordinate.Point.Position.Latitude;
+            this.lng = pos.Coordinate.Point.Position.Longitude;
+                                                              
+        }
         public MainPage()
         {
             this.InitializeComponent();
             displayData = new ObservableCollection<WeatherListViewItem>();
-                                                                                    
-            this.cityName.Text = "Tokyo";
-
+                                                             
             this.weatherProvider = new OpenWeatherMap();
+                                                             
+            try
+            {
+                GPSTest();
+                this.weatherProvider.SetLatLng(lat, lng);  
+                this.weatherProvider.UseLatLng();
+            }
+            catch
+            {
+                this.cityName.Text = "Tokyo";
+                this.weatherProvider.SetCity(cityName.Text);   
+            }
 
-            this.weatherProvider.SetCity(cityName.Text);
             refreshListBox();
+
+            this.weatherProvider.UseCityName();
+
             this.listView.ItemsSource = displayData;
         }
 
