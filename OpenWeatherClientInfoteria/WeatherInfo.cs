@@ -25,6 +25,7 @@ namespace OpenWeatherClientInfoteria
         public double rain { get; set; }
         public string weatherShortInfo { get; set; }
         public TemperatureUnit tempUnit { get; set; }
+        public string icon { get; set; }
                                                                     
     }
 

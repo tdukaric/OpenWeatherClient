@@ -102,6 +102,7 @@ namespace OpenWeatherClientInfoteria
             res.tempNight = l.temp.night;
             res.weatherShortInfo = l.weather.First().description;
             res.windSpeed = l.speed;
+            res.icon = l.weather.First().icon;
 
             return res;
         }

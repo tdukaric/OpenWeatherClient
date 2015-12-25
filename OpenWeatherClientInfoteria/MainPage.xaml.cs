@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -70,8 +71,9 @@ namespace OpenWeatherClientInfoteria
             this.displayData.Clear();
             
             foreach(DayWeatherInfo day in await this.weatherProvider.GetWeather())
-            {
-                this.displayData.Add(new WeatherListViewItem() { DateBox = day.date.ToString("dd.MM.yyyy"), TempBox = Convert.KelvinToCelsius(day.tempDay).ToString("F"), DescBox = day.weatherShortInfo });
+            {                                                                                                    
+
+                this.displayData.Add(new WeatherListViewItem() { DateBox = day.date.ToString("dd.MM.yyyy"), TempBox = "Temp (C): " + Convert.KelvinToCelsius(day.tempDay).ToString("F"), DescBox = day.weatherShortInfo, Icon = "http://openweathermap.org/img/w/" + day.icon + ".png" });
 
             }
 
@@ -91,6 +93,7 @@ namespace OpenWeatherClientInfoteria
             public string DateBox { get; set; }
             public string TempBox { get; set; }
             public string DescBox { get; set; }
+            public string Icon {get; set;}
         }
     }
 }
