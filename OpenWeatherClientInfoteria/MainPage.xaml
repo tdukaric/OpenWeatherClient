@@ -13,7 +13,7 @@
         <TextBox x:Name="cityName" HorizontalAlignment="Stretch" Margin="10,10,10,10" TextWrapping="Wrap" Text="Enter city" VerticalAlignment="Top"/>
         <Button x:Name="refresh" Content="Refresh" HorizontalAlignment="Stretch" Margin="10,47,10,0" VerticalAlignment="Top" Click="refresh_Click"/>
 
-        <ListView x:Name="listView" HorizontalAlignment="Stretch" Margin="10,84,0,0" VerticalAlignment="Top" DoubleTapped="display_DoubleTapped_1">
+        <ListView x:Name="listView" HorizontalAlignment="Stretch" Margin="10,84,0,0" VerticalAlignment="Top" DoubleTapped="listBox_DoubleTapped">
             
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -30,7 +30,7 @@
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Padding="0,0,0,0" Text="{Binding DateBox}"  />
-                        <TextBlock Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0" Padding="2,0,0,0" Text="Temperature: "  />
+                        <TextBlock Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0" Padding="2,0,0,0" Text="Temperature (C): "  />
                         <TextBlock Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="0" Padding="2,0,0,0" Text="{Binding TempBox}" TextAlignment="Right"  />
                         <TextBlock Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" Padding="2,0,0,0" Text="Weather: " />
                         <TextBlock Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="2" Padding="2,0,0,0" Text="{Binding DescBox}" />

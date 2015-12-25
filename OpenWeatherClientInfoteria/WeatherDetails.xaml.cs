@@ -57,8 +57,7 @@ namespace OpenWeatherClientInfoteria
         }
 
         #if WINDOWS_PHONE_APP
-        void HardwareButtons_BackPressed(object sender,
-          Windows.Phone.UI.Input.BackPressedEventArgs e)
+        void HardwareButtons_BackPressed(object sender, Windows.Phone.UI.Input.BackPressedEventArgs e)
         {
           if (this.Frame != null && this.Frame.CanGoBack)
           {

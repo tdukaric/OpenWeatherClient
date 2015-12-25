@@ -31,13 +31,13 @@
         <TextBlock Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" Padding="10,0,10,0" Text="Day: "  TextAlignment="Right" />
         <TextBlock Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="0" Padding="2,0,0,0" Name="dateTest"  />
 
-        <TextBlock Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="0" Grid.Row="1" Padding="0,0,10,0" Text="Morning temperature: " TextAlignment="Right"  />
+        <TextBlock Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="0" Grid.Row="1" Padding="0,0,10,0" Text="Morning temperature (C): " TextAlignment="Right"  />
         <TextBlock Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1" Padding="2,0,0,0" Name="tempMorning" />
 
-        <TextBlock Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="0" Grid.Row="2" Padding="0,0,10,0" Text="Day temperature: " TextAlignment="Right"  />
+        <TextBlock Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="0" Grid.Row="2" Padding="0,0,10,0" Text="Day temperature (C): " TextAlignment="Right"  />
         <TextBlock Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" Padding="2,0,0,0" Name="tempDay" />
 
-        <TextBlock Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" Padding="0,0,10,0" Text="Evening temperature: "  TextAlignment="Right"  />
+        <TextBlock Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3" Padding="0,0,10,0" Text="Evening temperature (C): "  TextAlignment="Right"  />
         <TextBlock Height="30" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Grid.Row="3" Padding="2,0,0,0" Name="tempEvening"  />
 
         <TextBlock Height="30" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Column="0" Grid.Row="4" Padding="0,0,10,0" Text="Wind: "  TextAlignment="Right"  />

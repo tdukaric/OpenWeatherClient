@@ -53,7 +53,7 @@ namespace OpenWeatherClientInfoteria
                                                                    
         }
 
-        private void display_DoubleTapped_1(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+        private void listBox_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
         {
             int itemIndex = listView.SelectedIndex;
                                                     
