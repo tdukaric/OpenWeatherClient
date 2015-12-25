@@ -9,7 +9,7 @@ namespace OpenWeatherClientInfoteria
         Fahrenheit = 2,
         Celsius = 3
     }
-    public class DayWeatherInfo : INotifyPropertyChanged
+    public class DayWeatherInfo
     {
         public string city { get; set; }
         public DateTime date { get; set; }
@@ -25,8 +25,7 @@ namespace OpenWeatherClientInfoteria
         public double rain { get; set; }
         public string weatherShortInfo { get; set; }
         public TemperatureUnit tempUnit { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
+                                                                    
     }
 
     public static class Convert

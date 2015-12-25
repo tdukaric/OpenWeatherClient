@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -38,8 +40,31 @@ namespace OpenWeatherClientInfoteria
 
         private async void refreshListBox()
         {
-            await this.weatherProvider.UpdateData();
+            try
+            {
+                await this.weatherProvider.UpdateData();
+            }
+            catch
+            {
+                var dialog = new MessageDialog("Problem with retrieving data...");
 
+                dialog.Title = "Internet connection";
+                dialog.Commands.Add(new UICommand { Label = "Retry", Id = 0 });
+                dialog.Commands.Add(new UICommand { Label = "Exit", Id = 1 });
+
+                var res = await dialog.ShowAsync();
+
+                if((int)res.Id == 1)
+                {
+                    Application.Current.Exit();
+                }
+                else
+                {
+                    refreshListBox();
+                    return;
+                } 
+                
+            }
             this.cityName.Text = weatherProvider.GetCity();
 
             this.displayData.Clear();
