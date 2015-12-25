@@ -134,7 +134,7 @@ namespace OpenWeatherClientInfoteria
             return city;
         }
 
-        public async Task<DayWeatherInfo> GetWeather(int index)
+        public DayWeatherInfo GetWeather(int index)
         {
             List x = result.list[index];
 

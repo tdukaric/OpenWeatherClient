@@ -1,21 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.ApplicationModel.Core;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
+﻿using System.Collections.ObjectModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -33,8 +18,7 @@ namespace OpenWeatherClientInfoteria
         {
             this.InitializeComponent();
             displayData = new ObservableCollection<WeatherListViewItem>();
-
-
+                                                                                    
             this.cityName.Text = "Tokyo";
 
             this.weatherProvider = new OpenWeatherMap();
@@ -69,11 +53,11 @@ namespace OpenWeatherClientInfoteria
                                                                    
         }
 
-        private async void display_DoubleTapped_1(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
+        private void display_DoubleTapped_1(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
         {
             int itemIndex = listView.SelectedIndex;
                                                     
-            this.Frame.Navigate(typeof(WeatherDetails), await weatherProvider.GetWeather(itemIndex));
+            this.Frame.Navigate(typeof(WeatherDetails), weatherProvider.GetWeather(itemIndex));
                         
         }
 
