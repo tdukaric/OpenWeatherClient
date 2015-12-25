@@ -9,6 +9,9 @@ namespace OpenWeatherClientInfoteria
         Fahrenheit = 2,
         Celsius = 3
     }
+    /// <summary>
+    /// Provides general information of wather data
+    /// </summary>
     public class DayWeatherInfo
     {
         public string city { get; set; }
@@ -29,6 +32,9 @@ namespace OpenWeatherClientInfoteria
                                                                     
     }
 
+    /// <summary>
+    /// Methods for converting values between Kelvin, Celsius and Fahrenheit
+    /// </summary>
     public static class Convert
     {
         public static double KelvinToCelsius(double Kelvin)
@@ -39,12 +45,32 @@ namespace OpenWeatherClientInfoteria
             return Kelvin - 273.15;
         }
 
+        public static double CelsiusToKelvin(double Celsius)
+        {
+            return Celsius + 273.15;
+        }
+
         public static double KelvinToFahrenheit(double Kelvin)
         {
             if (Kelvin < 0)
                 throw new Exception("Kelvin < 0!");
             
             return Kelvin * 9 / 5 - 459.67;
+        }
+
+        public static double FahrenheitToKelvin(double Fahrenheit)
+        {
+            return (Fahrenheit + 459.67) * (5 / 9);
+        }
+
+        public static double FahrenheitToCelsius(double Fahrenheit)
+        {
+            return (Fahrenheit - 32) * (5 / 9);
+        }
+
+        public static double CelsiusToFahrenheit(double Celsius)
+        {
+            return Celsius * (9 / 5) + 32;
         }
     }
 }

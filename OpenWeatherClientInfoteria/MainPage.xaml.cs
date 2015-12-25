@@ -23,7 +23,7 @@ namespace OpenWeatherClientInfoteria
         double lat;
         double lng;
 
-        public void GPSTest()
+        public void UpdateGPSPosition()
         {
             Geolocator geo = new Geolocator();
 
@@ -34,6 +34,7 @@ namespace OpenWeatherClientInfoteria
 
             this.lat = pos.Coordinate.Point.Position.Latitude;
             this.lng = pos.Coordinate.Point.Position.Longitude;
+            
                                                               
         }
         public MainPage()
@@ -43,9 +44,10 @@ namespace OpenWeatherClientInfoteria
                                                              
             this.weatherProvider = new OpenWeatherMap();
                                                              
+            // Try to obtain GPS position, if's not possible, fallback to fixed default city - Tokyo
             try
             {
-                GPSTest();
+                UpdateGPSPosition();
                 this.weatherProvider.SetLatLng(lat, lng);  
                 this.weatherProvider.UseLatLng();
             }
@@ -57,11 +59,17 @@ namespace OpenWeatherClientInfoteria
 
             refreshListBox();
 
+            //Use GPS only during loading
             this.weatherProvider.UseCityName();
 
             this.listView.ItemsSource = displayData;
         }
 
+        /// <summary>
+        /// Refreshes list box, event on refresh button click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void refresh_Click(object sender, RoutedEventArgs e)
         {
             this.weatherProvider.SetCity(cityName.Text);
@@ -102,23 +110,27 @@ namespace OpenWeatherClientInfoteria
             this.displayData.Clear();
             
             foreach(DayWeatherInfo day in await this.weatherProvider.GetWeather())
-            {                                                                                                    
-
+            {                                                 
                 this.displayData.Add(new WeatherListViewItem() { DateBox = day.date.ToString("dd.MM.yyyy"), TempBox = "Temp (C): " + Convert.KelvinToCelsius(day.tempDay).ToString("F"), DescBox = day.weatherShortInfo, Icon = "http://openweathermap.org/img/w/" + day.icon + ".png" });
-
             }
-
-                                                                   
+                                                       
         }
 
+        /// <summary>
+        /// Displays detailed weather info on double-tap or double-click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void listBox_DoubleTapped(object sender, Windows.UI.Xaml.Input.DoubleTappedRoutedEventArgs e)
         {
             int itemIndex = listView.SelectedIndex;
                                                     
             this.Frame.Navigate(typeof(WeatherDetails), weatherProvider.GetWeather(itemIndex));
-                        
         }
 
+        /// <summary>
+        /// Used for data binding
+        /// </summary>
         public class WeatherListViewItem
         {
             public string DateBox { get; set; }
