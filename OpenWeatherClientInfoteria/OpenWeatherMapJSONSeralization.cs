@@ -3,7 +3,7 @@
 namespace OpenWeatherClientInfoteria
 {
     [DataContract]
-    public class Rootobject
+    public class OpenWeatherJSONRoot
     {
         [DataMember]
         public City city { get; set; }
