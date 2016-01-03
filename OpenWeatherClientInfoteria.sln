@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenWeatherClientInfoteria", "OpenWeatherClientInfoteria\OpenWeatherClientInfoteria.csproj", "{31058B2D-B9AA-4EA2-BFBD-E54A912B6B75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest1", "UnitTest1\UnitTest1.csproj", "{47B2202C-F224-4CAC-9F36-F736D4EA2CB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TemperatureUnitConvert - Test", "UnitTest1\TemperatureUnitConvert - Test.csproj", "{47B2202C-F224-4CAC-9F36-F736D4EA2CB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
