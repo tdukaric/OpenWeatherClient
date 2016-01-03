@@ -23,7 +23,10 @@ namespace OpenWeatherClientInfoteria
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            
             info = e.Parameter as DayWeatherInfo;
+
+            this.gridListViewItem.DataContext = info;/*
 
             this.dateTest.Text = info.date.ToString("dd.MM.yyyy");
             this.tempMorning.Text = info.tempMorning.ToString("F");
@@ -33,7 +36,7 @@ namespace OpenWeatherClientInfoteria
             this.humidity.Text = info.humidity.ToString();
             this.pressure.Text = info.pressure.ToString();
             this.rain.Text = info.rain.ToString();
-            this.weatherShortInfo.Text = info.weatherShortInfo;
+            this.weatherShortInfo.Text = info.weatherShortInfo;*/
 
         }
 
