@@ -47,11 +47,8 @@ namespace UnitTest1
         [TestMethod]
         public void FahrenheitToKelvinTest()
         {
-            
-
             Assert.AreEqual(255.927778, OpenWeatherClientInfoteria.Convert.FahrenheitToKelvin(1), 0.001);
             Assert.AreEqual(255.372222, OpenWeatherClientInfoteria.Convert.FahrenheitToKelvin(0), 0.001);
-            
 
         }
 
@@ -61,7 +58,6 @@ namespace UnitTest1
             Assert.AreEqual(-17.22222, OpenWeatherClientInfoteria.Convert.FahrenheitToCelsius(1), 0.001);
             Assert.AreEqual(-17.77778, OpenWeatherClientInfoteria.Convert.FahrenheitToCelsius(0), 0.001); 
             
-
         }
     }
 }

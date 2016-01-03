@@ -16,16 +16,17 @@ namespace OpenWeatherClientInfoteria
         private string APIkey;
 
         private OpenWeatherJSONRoot result;
-
+        
         private static readonly Uri service = new Uri("http://api.openweathermap.org/data/2.5");
 
-        public OpenWeatherMap(string apiKey = "1e277518425a18a62c387b27f1935738")
+        public OpenWeatherMap(TemperatureUnit unit = TemperatureUnit.Celsius, string apiKey = "1e277518425a18a62c387b27f1935738")
         {
             this.APIkey = apiKey;
             this.result = null;
             this.city = null;
             this.country = null;
             this.useLatLng = false;
+            this.temperatureUnit = unit;
         }
 
 
@@ -38,6 +39,15 @@ namespace OpenWeatherClientInfoteria
                      u = string.Format("http://api.openweathermap.org/data/2.5/forecast/daily?q={0}&appid={1}&cnt={2}", this.city, this.APIkey, 16);
                 else
                     u = string.Format("http://api.openweathermap.org/data/2.5/forecast/daily?lat={0}&lon={1}&appid={2}&cnt={3}", this.lat.ToString().Replace('.', ','), this.lng.ToString().Replace('.', ','), this.APIkey, 16);
+
+                if(this.temperatureUnit == TemperatureUnit.Celsius)
+                {
+                    u += "&units=metric";
+                }
+                else if(this.temperatureUnit == TemperatureUnit.Fahrenheit)
+                {
+                    u += "&units=imperial";
+                }
 
                 var res = await client.GetStringAsync(u);
                 
@@ -91,7 +101,6 @@ namespace OpenWeatherClientInfoteria
             res.windSpeed = l.speed;
             res.icon = "http://openweathermap.org/img/w/" + l.weather.First().icon + ".png";
             
-
             return res;
         }
 
@@ -117,6 +126,22 @@ namespace OpenWeatherClientInfoteria
             List x = result.list[index];
 
             return GetDayWeatherInfo(x);
+        }
+
+        public override void SetTemperatureUnit(TemperatureUnit target)
+        {
+
+            foreach (List l in result.list)
+            {
+                l.temp.day = (float)ChangeTemperatureUnit(l.temp.day, temperatureUnit, target);
+                l.temp.eve = (float)ChangeTemperatureUnit(l.temp.eve, temperatureUnit, target);
+                l.temp.max = (float)ChangeTemperatureUnit(l.temp.max, temperatureUnit, target);
+                l.temp.min = (float)ChangeTemperatureUnit(l.temp.min, temperatureUnit, target);
+                l.temp.morn = (float)ChangeTemperatureUnit(l.temp.morn, temperatureUnit, target);
+                l.temp.night = (float)ChangeTemperatureUnit(l.temp.night, temperatureUnit, target);
+                
+            }
+            this.temperatureUnit = target;
         }
     }
 }

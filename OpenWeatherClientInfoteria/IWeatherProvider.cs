@@ -19,6 +19,7 @@ namespace OpenWeatherClientInfoteria
         Task<DayWeatherInfo> GetWeather(DateTime day);
         DayWeatherInfo GetWeather(int index);
         Task<List<DayWeatherInfo>> GetWeather();
+        void SetTemperatureUnit(TemperatureUnit target);
     }
 
     /// <summary>
@@ -31,6 +32,8 @@ namespace OpenWeatherClientInfoteria
         protected double lat;
         protected double lng;
         protected bool useLatLng = false;
+
+        public TemperatureUnit temperatureUnit;
 
         public void SetCity(string City)
         {
@@ -72,24 +75,56 @@ namespace OpenWeatherClientInfoteria
             return this.useLatLng;
         }
 
-        public virtual Task UpdateData()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract Task UpdateData();
 
-        public virtual Task<DayWeatherInfo> GetWeather(DateTime day)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract Task<DayWeatherInfo> GetWeather(DateTime day);
 
-        public virtual DayWeatherInfo GetWeather(int index)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract DayWeatherInfo GetWeather(int index);
 
-        public virtual Task<List<DayWeatherInfo>> GetWeather()
+        public abstract Task<List<DayWeatherInfo>> GetWeather();
+
+        public abstract void SetTemperatureUnit(TemperatureUnit target);
+
+        protected double ChangeTemperatureUnit(double value, TemperatureUnit source, TemperatureUnit target)
         {
-            throw new NotImplementedException();
+            if (source == target)
+                return value;
+            else if(source == TemperatureUnit.Celsius)
+            {
+                if(target == TemperatureUnit.Kelvin)
+                {
+                    return Convert.CelsiusToKelvin(value);
+                }
+                if (target == TemperatureUnit.Fahrenheit)
+                {
+                    return Convert.CelsiusToFahrenheit(value);
+                }
+            }
+            else if(source == TemperatureUnit.Kelvin)
+            {
+                if(target == TemperatureUnit.Celsius)
+                {
+                    return Convert.KelvinToCelsius(value);
+                }
+                if (target == TemperatureUnit.Fahrenheit)
+                {
+                    return Convert.KelvinToFahrenheit(value);
+                }
+            }
+            else if(source == TemperatureUnit.Fahrenheit)
+            {
+                if(target == TemperatureUnit.Celsius)
+                {
+                    return Convert.FahrenheitToCelsius(value);
+                }
+                if(target == TemperatureUnit.Kelvin)
+                {
+                    return Convert.FahrenheitToKelvin(value);
+                }
+            }
+
+            throw new Exception("Temperature Unit Not Found!!!");
+            
         }
     }
 }

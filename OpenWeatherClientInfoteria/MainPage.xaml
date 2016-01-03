@@ -9,12 +9,33 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        
+        <Grid.Resources>
+            <local:EnumTemperatureConverter x:Key="enumTemperatureConverter" />
+        </Grid.Resources>
+
         <TextBox x:Name="cityName" HorizontalAlignment="Stretch" Margin="10,10,10,10" TextWrapping="Wrap" Text="Enter city" VerticalAlignment="Top"/>
-        <Button x:Name="refresh" Content="Refresh" HorizontalAlignment="Stretch" Margin="10,47,10,0" VerticalAlignment="Top" Click="refresh_Click"/>
+        <Button x:Name="refresh" Content="Refresh" HorizontalAlignment="Stretch" Margin="10,47,51,0" VerticalAlignment="Top" Click="refresh_Click"/>
+
+        <Button x:Name="settingsButton" Content="Button" HorizontalAlignment="Right" Margin="0,47,15,0" VerticalAlignment="Top" Width="30" Height="30">
+            <Button.Template>
+                <ControlTemplate>
+                    <Image Source="Assets/settings icon.png"/>
+                </ControlTemplate>
+            </Button.Template>
+            <Button.Flyout>
+                <Flyout x:Name="SettingsFlyout">
+                    <StackPanel>
+                        <RadioButton GroupName="selectedTemperature" x:Name="Celsius" Content="Celsius" Tag="Celsius" IsChecked="{Binding SelectedTemperatureUnit, Converter={StaticResource enumTemperatureConverter}, ConverterParameter=Celsius, Mode=TwoWay}" />
+                        <RadioButton GroupName="selectedTemperature" x:Name="Kelvin" Content="Kelvin" Tag="Kelvin" IsChecked="{Binding SelectedTemperatureUnit, Converter={StaticResource enumTemperatureConverter}, ConverterParameter=Kelvin, Mode=TwoWay}"/>
+                        <RadioButton GroupName="selectedTemperature" x:Name="Fahrenheit" Content="Fahrenheit" Tag="Fahrenheit" IsChecked="{Binding SelectedTemperatureUnit, Converter={StaticResource enumTemperatureConverter}, ConverterParameter=Fahrenheit, Mode=TwoWay}"/>
+                        <Button Name="saveSettings" Content="Save" HorizontalAlignment="Stretch" Click="saveSettings_Click" />
+                    </StackPanel>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
 
         <ListView x:Name="listView" HorizontalAlignment="Stretch" Margin="10,84,0,0" VerticalAlignment="Top" DoubleTapped="listBox_DoubleTapped">
-            
+
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <Grid x:Name="gridListViewItem" Height="60" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -38,6 +59,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
 
 
     </Grid>

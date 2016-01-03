@@ -26,9 +26,9 @@ namespace OpenWeatherClientInfoteria
             info = e.Parameter as DayWeatherInfo;
 
             this.dateTest.Text = info.date.ToString("dd.MM.yyyy");
-            this.tempMorning.Text = Convert.KelvinToCelsius(info.tempMorning).ToString("F");
-            this.tempDay.Text = Convert.KelvinToCelsius(info.tempDay).ToString("F");
-            this.tempEvening.Text = Convert.KelvinToCelsius(info.tempEvening).ToString("F");
+            this.tempMorning.Text = info.tempMorning.ToString("F");
+            this.tempDay.Text = info.tempDay.ToString("F");
+            this.tempEvening.Text = info.tempEvening.ToString("F");
             this.windSpeed.Text = info.windSpeed.ToString();
             this.humidity.Text = info.humidity.ToString();
             this.pressure.Text = info.pressure.ToString();

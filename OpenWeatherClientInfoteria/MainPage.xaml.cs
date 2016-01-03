@@ -7,6 +7,10 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.Devices.Geolocation;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.UI.Xaml.Data;
+using System.Diagnostics;
+using System.ComponentModel;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -18,11 +22,12 @@ namespace OpenWeatherClientInfoteria
     public sealed partial class MainPage : Page
     {
         IWeatherProvider weatherProvider;
-
+                
         ObservableCollection<WeatherListViewItem> displayData;
+
         double lat;
         double lng;
-
+        
         public void UpdateGPSPosition()
         {
             Geolocator geo = new Geolocator();
@@ -34,16 +39,78 @@ namespace OpenWeatherClientInfoteria
 
             this.lat = pos.Coordinate.Point.Position.Latitude;
             this.lng = pos.Coordinate.Point.Position.Longitude;
+            
+        }
 
+        public void SetTemperatureUnit()
+        {
+            var localSettings = ApplicationData.Current.LocalSettings;
+
+            var value = localSettings.Values["temperatureUnit"];
+
+            if (value == null)
+            {
+                value = TemperatureUnit.Celsius;
+            }
+            else
+            {
+                if (!(value is TemperatureUnit))
+                    value = TemperatureUnit.Celsius;
+            }
+            
+            this.weatherProvider.SetTemperatureUnit(((SettingsPageViewModel)DataContext).SelectedTemperatureUnit);
+            
+            SaveTemperatureUnitToSettings(((SettingsPageViewModel)DataContext).SelectedTemperatureUnit);
+        }
+        
+        private TemperatureUnit GetTemperatureUnitFromSettings()
+        {
+            var localSettings = ApplicationData.Current.LocalSettings;
+
+            var value = localSettings.Values["temperatureUnit"];
+
+            if (value == null)
+            {
+                return TemperatureUnit.Celsius;
+            }
+            else
+            {
+                if (value.Equals("Celsius"))
+                {
+                    this.Celsius.IsChecked = true;
+                    return TemperatureUnit.Celsius;
+                }
+                else if (value.Equals("Kelvin"))
+                {
+                    this.Kelvin.IsChecked = true;
+                    return TemperatureUnit.Kelvin;
+                }
+                else
+                {
+                    this.Fahrenheit.IsChecked = true;
+                    return TemperatureUnit.Fahrenheit;
+                }
+            }
+        }
+
+        private void SaveTemperatureUnitToSettings(TemperatureUnit unit)
+        {
+            var localSettings = ApplicationData.Current.LocalSettings;
+
+            localSettings.Values["temperatureUnit"] = unit.ToString();
 
         }
+
         public MainPage()
         {
             this.InitializeComponent();
+
+            DataContext = new SettingsPageViewModel(GetTemperatureUnitFromSettings());
+            
             displayData = new ObservableCollection<WeatherListViewItem>();
 
-            this.weatherProvider = new OpenWeatherMap();
-
+            this.weatherProvider = new OpenWeatherMap(((SettingsPageViewModel)DataContext).SelectedTemperatureUnit);
+            
             // Try to obtain GPS position, if it's not possible, fallback to fixed default city - Tokyo
             try
             {
@@ -57,7 +124,7 @@ namespace OpenWeatherClientInfoteria
                 this.weatherProvider.SetCity(cityName.Text);
             }
 
-            refreshListBox();
+            UpdateAndRefreshListBox();
 
             //Use GPS only during loading
             this.weatherProvider.UseCityName();
@@ -74,11 +141,11 @@ namespace OpenWeatherClientInfoteria
         {
             this.weatherProvider.SetCity(cityName.Text);
 
-            refreshListBox();
+            UpdateAndRefreshListBox();
 
         }
 
-        private async void refreshListBox()
+        private async void UpdateAndRefreshListBox()
         {
             try
             {
@@ -94,7 +161,7 @@ namespace OpenWeatherClientInfoteria
                     dialog.Title = e.Message;
                     dialog.Commands.Add(new UICommand { Label = "Exit", Id = 1 });
 
-                    dialog.ShowAsync();
+                    await dialog.ShowAsync();
 
                     return;
 
@@ -116,7 +183,7 @@ namespace OpenWeatherClientInfoteria
                     }
                     else
                     {
-                        refreshListBox();
+                        UpdateAndRefreshListBox();
                         return;
                     }
                 }
@@ -125,13 +192,18 @@ namespace OpenWeatherClientInfoteria
 
             this.cityName.Text = weatherProvider.GetCity();
 
+            await RefreshListBox();
+
+        }
+
+        private async Task RefreshListBox()
+        {
             this.displayData.Clear();
 
             foreach (DayWeatherInfo day in await this.weatherProvider.GetWeather())
             {
-                this.displayData.Add(new WeatherListViewItem() { DateBox = day.date.ToString("dd.MM.yyyy"), TempBox = "Temp (C): " + Convert.KelvinToCelsius(day.tempDay).ToString("F"), DescBox = day.weatherShortInfo, Icon = day.icon });
+                this.displayData.Add(new WeatherListViewItem() { DateBox = day.date.ToString("dd.MM.yyyy"), TempBox = "Temp (C): " + day.tempDay.ToString("F"), DescBox = day.weatherShortInfo, Icon = day.icon });
             }
-
         }
 
         /// <summary>
@@ -156,5 +228,84 @@ namespace OpenWeatherClientInfoteria
             public string DescBox { get; set; }
             public string Icon { get; set; }
         }
+
+        private async void saveSettings_Click(object sender, RoutedEventArgs e)
+        {
+            SetTemperatureUnit();
+
+            foreach (DayWeatherInfo day in this.weatherProvider.GetWeather().Result)
+            {
+                this.displayData.Add(new WeatherListViewItem() { DateBox = day.date.ToString("dd.MM.yyyy"), TempBox = "Temp (C): " + day.tempDay.ToString("F"), DescBox = day.weatherShortInfo, Icon = day.icon });
+            }
+
+            await RefreshListBox();
+
+            this.SettingsFlyout.Hide();
+        }
+
     }
+
+    public class EnumTemperatureConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            string param = parameter as string;
+
+            if (param == null)
+                return DependencyProperty.UnsetValue;
+
+            if (Enum.IsDefined(value.GetType(), value) == false)
+                return DependencyProperty.UnsetValue;
+
+            object paramValue = Enum.Parse(value.GetType(), param);
+            return paramValue.Equals(value);
+
+        }
+        
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            string param = parameter as string;
+
+            if (parameter == null)
+                return DependencyProperty.UnsetValue;
+            return Enum.Parse(typeof(TemperatureUnit), param);
+
+        }
+        
+    }
+    
+    class SettingsPageViewModel : INotifyPropertyChanged
+    {
+        public SettingsPageViewModel(TemperatureUnit initValue)
+        {
+            _selectedTemperatureUnit = initValue;
+        }
+        public SettingsPageViewModel()
+        {
+            _selectedTemperatureUnit = TemperatureUnit.Celsius;
+        }
+
+        private TemperatureUnit _selectedTemperatureUnit;
+
+        public TemperatureUnit SelectedTemperatureUnit
+        {
+            get
+            {
+                return _selectedTemperatureUnit;
+            }
+            set
+            {
+                
+                if (_selectedTemperatureUnit != value)
+                {
+                    _selectedTemperatureUnit = value;
+                    if (PropertyChanged != null)
+                        PropertyChanged(this, new PropertyChangedEventArgs("SelectedTemperatureUnit"));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+    }
+
 }
