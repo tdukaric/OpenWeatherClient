@@ -2,6 +2,10 @@
 
 namespace OpenWeatherClientInfoteria
 {
+    /// <summary>
+    /// Used for serialization of OpenWeatherMap JSON response. Contains original names of elements.
+    /// </summary>
+    /// 
     [DataContract]
     public class OpenWeatherJSONRoot
     {

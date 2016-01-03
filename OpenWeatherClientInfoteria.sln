@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenWeatherClientInfoteria", "OpenWeatherClientInfoteria\OpenWeatherClientInfoteria.csproj", "{31058B2D-B9AA-4EA2-BFBD-E54A912B6B75}"
 EndProject
@@ -20,6 +20,8 @@ Global
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{31058B2D-B9AA-4EA2-BFBD-E54A912B6B75}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{31058B2D-B9AA-4EA2-BFBD-E54A912B6B75}.Debug|Any CPU.Build.0 = Debug|x86
+		{31058B2D-B9AA-4EA2-BFBD-E54A912B6B75}.Debug|Any CPU.Deploy.0 = Debug|x86
 		{31058B2D-B9AA-4EA2-BFBD-E54A912B6B75}.Debug|ARM.ActiveCfg = Debug|ARM
 		{31058B2D-B9AA-4EA2-BFBD-E54A912B6B75}.Debug|ARM.Build.0 = Debug|ARM
 		{31058B2D-B9AA-4EA2-BFBD-E54A912B6B75}.Debug|ARM.Deploy.0 = Debug|ARM
@@ -40,6 +42,7 @@ Global
 		{31058B2D-B9AA-4EA2-BFBD-E54A912B6B75}.Release|x86.Build.0 = Release|x86
 		{31058B2D-B9AA-4EA2-BFBD-E54A912B6B75}.Release|x86.Deploy.0 = Release|x86
 		{47B2202C-F224-4CAC-9F36-F736D4EA2CB6}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{47B2202C-F224-4CAC-9F36-F736D4EA2CB6}.Debug|Any CPU.Build.0 = Debug|x86
 		{47B2202C-F224-4CAC-9F36-F736D4EA2CB6}.Debug|ARM.ActiveCfg = Debug|ARM
 		{47B2202C-F224-4CAC-9F36-F736D4EA2CB6}.Debug|ARM.Build.0 = Debug|ARM
 		{47B2202C-F224-4CAC-9F36-F736D4EA2CB6}.Debug|ARM.Deploy.0 = Debug|ARM

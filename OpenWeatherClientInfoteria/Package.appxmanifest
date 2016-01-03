@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="6bfaf1ed-9c02-4bae-9029-71e5451c4525" Publisher="CN=tomis" Version="1.0.0.0" />
+  <Identity Name="6bfaf1ed-9c02-4bae-9029-71e5451c4525" Publisher="CN=user" Version="1.0.0.0" />
   <mp:PhoneIdentity PhoneProductId="6bfaf1ed-9c02-4bae-9029-71e5451c4525" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>OpenWeatherClientInfoteria</DisplayName>

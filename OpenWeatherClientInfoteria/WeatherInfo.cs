@@ -28,6 +28,9 @@ namespace OpenWeatherClientInfoteria
         public double rain { get; set; }
         public string weatherShortInfo { get; set; }
         public TemperatureUnit tempUnit { get; set; }
+        /// <summary>
+        /// Link to a icon
+        /// </summary>
         public string icon { get; set; }
                                                                     
     }
@@ -55,22 +58,22 @@ namespace OpenWeatherClientInfoteria
             if (Kelvin < 0)
                 throw new Exception("Kelvin < 0!");
             
-            return Kelvin * 9 / 5 - 459.67;
+            return Kelvin * 9.0 / 5.0 - 459.67;
         }
 
         public static double FahrenheitToKelvin(double Fahrenheit)
         {
-            return (Fahrenheit + 459.67) * (5 / 9);
+            return (Fahrenheit + 459.67) * (5.0 / 9.0);
         }
 
         public static double FahrenheitToCelsius(double Fahrenheit)
         {
-            return (Fahrenheit - 32) * (5 / 9);
+            return (Fahrenheit - 32.0) * (5.0 / 9.0);
         }
 
         public static double CelsiusToFahrenheit(double Celsius)
         {
-            return Celsius * (9 / 5) + 32;
+            return Celsius * (9.0 / 5.0) + 32.0;
         }
     }
 }

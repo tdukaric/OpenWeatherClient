@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Data.Json;
 
 namespace OpenWeatherClientInfoteria
 {
@@ -15,7 +16,9 @@ namespace OpenWeatherClientInfoteria
         private string APIkey;
 
         private OpenWeatherJSONRoot result;
-                                                
+
+        private static readonly Uri service = new Uri("http://api.openweathermap.org/data/2.5");
+
         public OpenWeatherMap(string apiKey = "1e277518425a18a62c387b27f1935738")
         {
             this.APIkey = apiKey;
@@ -37,14 +40,23 @@ namespace OpenWeatherClientInfoteria
                     u = string.Format("http://api.openweathermap.org/data/2.5/forecast/daily?lat={0}&lon={1}&appid={2}&cnt={3}", this.lat.ToString().Replace('.', ','), this.lng.ToString().Replace('.', ','), this.APIkey, 16);
 
                 var res = await client.GetStringAsync(u);
-                                                      
-                MemoryStream stream1 = new MemoryStream(Encoding.UTF8.GetBytes(res));
-                DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(OpenWeatherJSONRoot));
+                
+                int cod = Int32.Parse((JsonObject.Parse(res))["cod"].GetString());
 
-                this.result = (OpenWeatherJSONRoot)ser.ReadObject(stream1);
-                this.result.temperatureUnit = TemperatureUnit.Kelvin;
+                if(cod == 404)
+                {
+                    throw new Exception("City not found!");
+                }
+                
+                using (MemoryStream stream1 = new MemoryStream(Encoding.UTF8.GetBytes(res)))
+                {
+                    DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(OpenWeatherJSONRoot));
+                    
+                    this.result = (OpenWeatherJSONRoot)ser.ReadObject(stream1);
+                    this.result.temperatureUnit = TemperatureUnit.Kelvin;
 
-                this.city = this.result.city.name;
+                    this.city = this.result.city.name;
+                }
             }
         }
                                        
@@ -77,7 +89,8 @@ namespace OpenWeatherClientInfoteria
             res.tempNight = l.temp.night;
             res.weatherShortInfo = l.weather.First().description;
             res.windSpeed = l.speed;
-            res.icon = l.weather.First().icon;
+            res.icon = "http://openweathermap.org/img/w/" + l.weather.First().icon + ".png";
+            
 
             return res;
         }
