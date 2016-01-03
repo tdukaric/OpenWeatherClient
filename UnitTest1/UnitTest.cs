@@ -59,7 +59,7 @@ namespace UnitTest1
         public void FarhenheitToCelsiusTest()
         {
             Assert.AreEqual(-17.22222, OpenWeatherClientInfoteria.Convert.FahrenheitToCelsius(1), 0.001);
-            Assert.AreEqual(-17.77778, OpenWeatherClientInfoteria.Convert.FahrenheitToCelsius(0), 0.001);
+            Assert.AreEqual(-17.77778, OpenWeatherClientInfoteria.Convert.FahrenheitToCelsius(0), 0.001); 
             
 
         }
